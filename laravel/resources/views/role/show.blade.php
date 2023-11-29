@@ -1,0 +1,45 @@
+@extends('layouts.app')
+
+@section('template_title')
+{{ $role->name ?? "{{ __('Show') Role" }}
+@endsection
+
+@section('content')
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="float-left">
+                        <span class="card-title">{{ __('Show') }} Role</span>
+                    </div>
+                    <div class="float-right">
+                        <a class="btn btn-primary" href="{{ route('roles.index') }}"> {{ __('Back') }}</a>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="form-group">
+                        <strong>Name:</strong>
+                        {{ $role->name }}
+                    </div>
+                    <div class="form-group">
+                        <strong>Guard Name:</strong>
+                        {{ $role->guard_name }}
+                    </div>
+
+                    <br>Permisos
+                    <fieldset name="permisos" id="permisos" multiple="multiple">
+                        @foreach ($permisos as $id => $permisos)
+                        <input type="checkbox" disabled readonly name="asignarPermisos[{{ $id }}]" value="{{ $id }}" {{ (isset($role) && $role->permissions()->pluck('name', 'id')->contains($id)) ? 'checked': '' }}>
+                        <label for="{{ $permisos }}"> {{ $permisos }} </label>
+                        <br>
+                        @endforeach
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endsection
